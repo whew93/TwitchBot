@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using TwitchBot.Models.TwitchLibrary;
 
 namespace TwitchBot.Models
 {
@@ -23,11 +24,14 @@ namespace TwitchBot.Models
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
         }
 
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<Account> Accounts { get; set; }
     }
 }
