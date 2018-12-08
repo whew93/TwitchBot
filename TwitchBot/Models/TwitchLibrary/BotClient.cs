@@ -5,8 +5,8 @@ using System.Web;
 
 namespace TwitchBot.Models.TwitchLibrary
 {
-    public class BotClient
-    {
+	public class BotClient
+	{
 
-    }
+	}
 }

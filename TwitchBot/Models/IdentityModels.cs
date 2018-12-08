@@ -24,7 +24,7 @@ namespace TwitchBot.Models
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
+            Database.SetInitializer(new DropCreateDatabaseInitializer());
         }
 
         public static ApplicationDbContext Create()
