@@ -16,16 +16,15 @@ namespace TwitchBot.Controllers
 		// GET: Accounts
 		public async Task<ActionResult> Index()
 		{
-			return View(await db.Accounts.ToListAsync());
+            return View(await db.Accounts.ToListAsync());
 		}
 
 		[HttpPost]
-		public void StartStop(Account account)
+		public async Task<ActionResult> StartStop()//Account account)
 		{
-			//string securedInfo = "Started";
-			var foundAccount = db.Accounts.FirstOrDefaultAsync(x => x.ChannelName == account.ChannelName);
-			//return securedInfo;
-		}
+			//var foundAccount = db.Accounts.FirstOrDefaultAsync(x => x.ChannelName == account.ChannelName);
+            return PartialView("_PartialUsers", await db.Accounts.ToListAsync());
+        }
 
 		//public ActionResult Index()
 		//      {
