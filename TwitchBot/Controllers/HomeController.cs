@@ -16,27 +16,21 @@ namespace TwitchBot.Controllers
 		// GET: Accounts
 		public async Task<ActionResult> Index()
 		{
-            return View(await db.Accounts.ToListAsync());
+			return View(await db.Accounts.ToListAsync());
 		}
 
 		[HttpPost]
-		public async Task<ActionResult> StartStop()//Account account)
+		public async Task<ActionResult> StartStop([Bind(Include = "Id,IsEnabled")] Account account)
 		{
-			//var foundAccount = db.Accounts.FirstOrDefaultAsync(x => x.ChannelName == account.ChannelName);
-            return PartialView("_PartialUsers", await db.Accounts.ToListAsync());
-        }
+			Account currentAccount = await db.Accounts.FirstOrDefaultAsync(x => x.Id == account.Id);
+			if (currentAccount != null)
+			{
+				currentAccount.IsEnabled = !currentAccount.IsEnabled;
+			}
+			await db.SaveChangesAsync();
 
-		//public ActionResult Index()
-		//      {
-		//          ConnectionCredentials credentials = new ConnectionCredentials("digitalexa", "5eg2y99btp80sr5wo449is6n44xx24");
-		//          TwitchClient client = new TwitchClient();
-		//          client.Initialize(credentials, "digitalexa");
-		//          client.OnJoinedChannel += Client_OnJoinedChannel;
-		//          client.OnLeftChannel += Client_OnLeftChannel;
-		//          client.Connect();
-
-		//          return View();
-		//      }
+			return PartialView("_PartialUsers", await db.Accounts.ToListAsync());
+		}
 
 		private void Client_OnLeftChannel(object sender, TwitchLib.Client.Events.OnLeftChannelArgs e)
 		{
